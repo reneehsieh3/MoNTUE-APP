@@ -2,7 +2,7 @@ import { StyleSheet, View, Text, Image, ScrollView, Pressable } from 'react-nati
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-
+//testing
 export default function Intro() {
   return (
     <SafeAreaView style={styles.intro_container}>
