@@ -8,8 +8,12 @@ export default function Calendar() {
     return (
         <SafeAreaView style={styles.container}>
             <Header Section="展覽資訊"/>
-                <ScrollView style={styles.calendar_container}>
-                </ScrollView>
+                <View style={styles.calendar_container}>
+                    <View style={styles.upcomming_container}>
+                        <Text style={{ fontSize: 15, fontWeight: 'semibold' }}>預告展覽</Text>
+                        
+                    </View>
+                </View>
             <Footer Section="Calendar"/>
         </SafeAreaView>
     );

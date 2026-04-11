@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#ffffff',
+/*         borderWidth: 1,
+        borderColor: '#00ff00', */
     },
     home_header_container: {
         display: 'flex',
