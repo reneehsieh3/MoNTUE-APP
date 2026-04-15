@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         height: 195,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#ffffff',
+/*         borderWidth: 1,
+        borderColor: '#00ff00', */
     },
 });

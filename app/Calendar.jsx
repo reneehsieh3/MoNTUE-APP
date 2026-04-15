@@ -82,10 +82,6 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingBottom: 10,
     },
-        calendar_past: {
-        flex: 1,
-        alignItems: 'center',
-    },
     upcomming_container: {
         width: 300,
     },
