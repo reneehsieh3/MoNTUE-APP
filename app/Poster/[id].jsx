@@ -36,7 +36,7 @@ export default function Posters(){
                         </TouchableOpacity>
                     ),
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => router.back()}>
+                        <TouchableOpacity>
                             <View style={styles.icon_container}>
                                 <Image source={require('../../images/Language_switch_icon_LM.png')} style={styles.icon}/>
                             </View>
