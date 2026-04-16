@@ -11,7 +11,7 @@ export default function Calendar() {
     
     const upcommingHeight = scrollY.interpolate({
         inputRange: [0, 200],
-        outputRange: [200, 0],
+        outputRange: [210, 0],
         extrapolate: 'clamp',
     });
 
@@ -33,7 +33,7 @@ export default function Calendar() {
                     showsVerticalScrollIndicator={false}
                     
                     contentContainerStyle={{ 
-                        paddingTop: 230, 
+                        paddingTop: 280, 
                         paddingBottom: 50,
                         alignItems: 'center'
                     }}

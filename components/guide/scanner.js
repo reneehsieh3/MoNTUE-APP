@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 
 const ScanArea = 250;
 
-export default function Scanner() {
+export default function Scanner({ onScan, onCancel}) {
     const [permission, requestPermission] = useCameraPermissions();
     const [scanned, setScanned] = useState(false);
     
@@ -17,8 +17,21 @@ export default function Scanner() {
     if (!permission.granted) {
         return (
             <View style={ styles.permission_container }>
-                <Text style={{  fontSize: 12 }}>抱歉，我們需要相機權限才能掃描 QR code!</Text>
-                <Button onPress={requestPermission} title="Grant Permission" />
+                <Text style={{  fontSize: 16 }}>抱歉，我們需要相機權限才能掃描 QR code!</Text>
+                <View style={styles.permission_buttom_container}>
+                    <Pressable 
+                        style={[styles.cancel_button, {backgroundColor: '#c8c8c8'}]}
+                        onPress={requestPermission} 
+                    >
+                        <Text style={{ fontSize: 16, color: '#000000' }}>同意</Text>
+                    </Pressable>
+                    <Pressable 
+                            style={styles.cancel_button}
+                            onPress={onCancel} 
+                        >
+                        <Text style={{ fontSize: 16, color: '#000000' }}>取消</Text>
+                    </Pressable>
+                </View>
             </View>
         );
     }
@@ -52,7 +65,9 @@ export default function Scanner() {
         }
 
         setScanned(true);
-        Alert.alert('QR Code Scanned!', `Data: ${data}`);
+        if (onScan) {
+            onScan(data);
+        }
     };
 
     return (
@@ -73,13 +88,38 @@ export default function Scanner() {
                     <View style={styles.camera_clear}/>
                     <View style={styles.camera_shade}/>
                 </View>
-                <View style={styles.camera_shade}/>
+                <View style={[styles.camera_shade, { paddingBottom: 40 }]}>
+                    <Pressable 
+                        style={styles.cancel_button}
+                        onPress={onCancel} 
+                    >
+                        <Text style={{ fontSize: 16, color: '#000000' }}>取消</Text>
+                    </Pressable>
+                </View>
             </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    permission_container: {
+        flex: 1,
+        height: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+/*         borderWidth: 1,
+        borderColor: '#ff0000', */
+    },
+    permission_buttom_container: {
+        display: 'flex',
+        width: '90%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        marginVertical: 10,
+/*         borderWidth: 1,
+        borderColor: '#00ff00', */
+    },
     camera_container: {
         flex: 1,
     },
@@ -111,6 +151,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderWidth: 2,
         borderColor: '#ffffff',
+        borderRadius: 5,
+    },
+    cancel_button: {
+        display: 'flex',
+        width: 100,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgb(200, 200, 200)',
         borderRadius: 5,
     },
 });
