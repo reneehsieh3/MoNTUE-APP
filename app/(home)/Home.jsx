@@ -61,7 +61,7 @@ export default function News() {
                             <View style={styles.news_item_container}>
                                 <Text style={{ fontSize: 12, fontWeight: '600', letterSpacing: 3, lineHeight: 20 }}>{item.title}</Text>
                                 <Text style={{ fontSize: 10, color: '#666666', letterSpacing: 2, lineHeight: 15 }}>{item.date}</Text>
-                                <Text style={{ fontSize: 10, letterSpacing: 2, lineHeight: 18 }}>{item.description.substring(0, 20) + '......'}</Text>
+                                <Text style={{ fontSize: 10, letterSpacing: 2, lineHeight: 18 }}>{item.description.substring(0, 15) + '......'}</Text>
                             </View>
                         </Pressable>
                         
