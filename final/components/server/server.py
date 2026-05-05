@@ -28,22 +28,28 @@ if not IMAGE_PATH.exists():
 
 def get_most_common_color(image_path: Path) -> str:
     img = Image.open(image_path).convert("RGB")
-    img = img.resize((100, 100)) 
-    pixels = np.array(img.getdata())
-    
-    kmeans = KMeans(n_clusters=5, n_init='auto')
-    kmeans.fit(pixels)
-    colors = kmeans.cluster_centers_
 
-    def get_vibrancy(rgb):
-        r, g, b = rgb / 255.0
-        h, s, v = colorsys.rgb_to_hsv(r, g, b)
-        return s * v 
+    pixels = np.array(img).reshape(-1, 3)
 
-    vibrancy_scores = [get_vibrancy(c) for c in colors]
-    dominant_rgb = colors[np.argmax(vibrancy_scores)]
-    
-    r, g, b = dominant_rgb.astype(int)
+    kmeans = KMeans(n_clusters=10, n_init=10, random_state=42)
+    labels = kmeans.fit_predict(pixels)
+    colors = kmeans.cluster_centers_.astype(int)
+
+    counts = np.bincount(labels)
+    valid = []
+    for count, color in zip(counts, colors):
+        r, g, b = color
+        h, s, v = colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)
+
+        if v >= 0.2 and s >= 0.2:
+            valid.append((count, color))
+
+    if valid:
+        dominant_color = max(valid, key=lambda item: item[0])[1]
+    else:
+        dominant_color = colors[np.argmax(counts)]
+
+    r, g, b = dominant_color
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 @app.route("/dominant-color")
