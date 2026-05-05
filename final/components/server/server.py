@@ -31,7 +31,7 @@ def get_most_common_color(image_path: Path) -> str:
     img = img.resize((100, 100)) 
     pixels = np.array(img.getdata())
     
-    kmeans = KMeans(n_clusters=10, n_init='auto')
+    kmeans = KMeans(n_clusters=5, n_init='auto')
     kmeans.fit(pixels)
     colors = kmeans.cluster_centers_
 
