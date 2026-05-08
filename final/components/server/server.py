@@ -28,28 +28,11 @@ if not IMAGE_PATH.exists():
 
 def get_most_common_color(image_path: Path) -> str:
     img = Image.open(image_path).convert("RGB")
-
-    pixels = np.array(img).reshape(-1, 3)
-
-    kmeans = KMeans(n_clusters=10, n_init=10, random_state=42)
-    labels = kmeans.fit_predict(pixels)
-    colors = kmeans.cluster_centers_.astype(int)
-
-    counts = np.bincount(labels)
-    valid = []
-    for count, color in zip(counts, colors):
-        r, g, b = color
-        h, s, v = colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)
-
-        if v >= 0.2 and s >= 0.2:
-            valid.append((count, color))
-
-    if valid:
-        dominant_color = max(valid, key=lambda item: item[0])[1]
-    else:
-        dominant_color = colors[np.argmax(counts)]
-
-    r, g, b = dominant_color
+    
+    img = img.resize((50, 50), resample=Image.Resampling.LANCZOS)
+    
+    counts = Counter(img.getdata())
+    r, g, b = counts.most_common(1)[0][0]
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 @app.route("/dominant-color")
