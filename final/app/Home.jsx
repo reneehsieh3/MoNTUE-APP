@@ -43,13 +43,7 @@ export default function Home() {
                 
                 <Shadow distance={10} startColor={colors.glow} offset={[0, 0]} style={{ borderRadius: width * 0.1 }}>
                     <Pressable style={styles.home_to_ticket_container}
-                    onPress={() => router.push({
-                        pathname: !UserData[0].id ? '/Settings/Login' : '/Ticket',
-                        params: {
-                            back: '/Home',
-                            next: '/Ticket'
-                        }
-                    })}
+                    onPress={() => router.push('/Ticket')}
                 >
                         <View style={[styles.home_to_ticket_button, {backgroundColor: bgColor, borderColor: colors.glow_outline}]}>
                             <Image source={colors.Tickets_icon} style={styles.home_to_ticket_button_icon} resizeMode='contain'/>

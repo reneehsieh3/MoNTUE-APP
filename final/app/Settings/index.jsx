@@ -24,10 +24,19 @@ export default function Settings() {
                     個人資訊
                 </Text>
                 {UserData[0].id ? 
-                    <Pressable
-                        onPress={() => router.push('/Settings/Userinfo')}
-                        style={styles.setting_title_icon_container}>
-                        <Image source={colors.Edit_icon} style={styles.setting_title_icon} resizeMode='contain' />
+                    <Pressable 
+                        style={styles.setting_title_icon_container}
+                        onPress={() => router.push(
+                            {
+                                pathname: '/Settings/Userinfo',
+                                params: {
+                                    back: '/Settings',
+                                    next: '/Settings'
+                                }
+                            }
+                        )}
+                    >
+                        <Image source={colors.Edit_icon} style={styles.setting_title_icon} resizeMode="contain"/>
                     </Pressable>
                 :
                     <></>
@@ -41,36 +50,39 @@ export default function Settings() {
                         <Image source={colors.User_img} style={styles.setting_account_img} resizeMode="contain" />
                     }
                 </View>
-                <View style={styles.setting_account_info_container}>
-                    <View style={styles.setting_account_info_name_container}>
+                {UserData[0].id ? 
+                    <View style={styles.setting_account_info_container}>
                         <Text style={{color: colors.text, fontSize: 20, fontWeight: '500'}}>
-                            {UserData[0].id ? 
-                                UserData[0].name 
-                            : 
-                                '未登入'
-                            }
+                            {UserData[0].name}
                         </Text>
                     </View>
-                    <View style={styles.setting_account_info_email_container}>
-                        {UserData[0].id ? 
-                            <Text style={{color: colors.text, fontSize: 10, fontWeight: '500'}}>
-                                {UserData[0].email}
+                :
+                    <View style={styles.setting_account_info_container}>
+                        <View style={styles.setting_account_info_name_container}>
+                            <Text style={{color: colors.text, fontSize: 20, fontWeight: '500'}}>
+                                未登入
                             </Text>
-                        :
-                            <Pressable style={styles.setting_account_login_button} onPress={() => router.push({
-                                pathname: '/Settings/Login',
-                                params: {
-                                    back: '/Settings',
-                                    next: '/Settings'
-                                }
-                            })}>
+                        </View>
+                        <View style={styles.setting_account_info_button_container}>
+                            <Pressable
+                                style={styles.setting_account_login_button}
+                                onPress={() => router.push(
+                                    {
+                                        pathname: '/Settings/Login',
+                                        params: {
+                                            back: '/Settings',
+                                            next: '/Settings'
+                                        }
+                                    }
+                                )}
+                            >
                                 <Text style={{color: '#ffffff', fontSize: 16, fontWeight: '500', letterSpacing: 2}}>
                                     登入/註冊
                                 </Text>
                             </Pressable>
-                            }
+                        </View>
                     </View>
-                </View>
+                }
             </View>
             <View style={styles.setting_title_container}>
                 <Text style={{color: colors.text, fontSize: 18, letterSpacing: 3}}>
@@ -202,6 +214,7 @@ const styles = StyleSheet.create({
         width: '55%',
         height: height * 0.1,
         marginLeft: width * 0.05,
+        justifyContent: 'center',
 /*         borderWidth: 1,
         borderColor: '#ff0000', */
     },
@@ -213,7 +226,7 @@ const styles = StyleSheet.create({
 /*         borderWidth: 1,
         borderColor: '#ff0000', */
     },
-    setting_account_info_email_container: {
+    setting_account_info_button_container: {
         display: 'flex',
         width: '100%',
         height: '50%',

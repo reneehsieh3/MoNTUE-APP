@@ -41,7 +41,7 @@ export default function Intro() {
                         </View>
                         <View style={styles.input_container}>
                             <TextInput
-                                style={[styles.input, {backgroundColor: colors.input}]}
+                                style={[styles.input, {backgroundColor: colors.input, color: colors.text}]}
                                 placeholder="輸入編號"
                                 placeholderTextColor={ colors.text }
                                 value={manualInput}

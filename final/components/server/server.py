@@ -25,11 +25,48 @@ if not IMAGE_PATH.exists():
 
 def get_most_common_color(image_path: Path) -> str:
     img = Image.open(image_path).convert("RGB")
-    
-    img = img.resize((50, 50), resample=Image.Resampling.LANCZOS)
-    
-    counts = Counter(img.getdata())
-    r, g, b = counts.most_common(1)[0][0]
+    width, height = img.size
+
+    border_pixels = []
+    border_width = min(3, width // 2, height // 2)
+
+    for y in range(height):
+        for x in range(width):
+            if x < border_width or x >= width - border_width or y < border_width or y >= height - border_width:
+                border_pixels.append(img.getpixel((x, y)))
+
+    if not border_pixels:
+        img = img.resize((50, 50), resample=Image.Resampling.LANCZOS)
+        border_pixels = list(img.getdata())
+
+    def distance_sq(a, b):
+        return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2
+
+    def mean_color(cluster):
+        length = len(cluster)
+        if length == 0:
+            return (0, 0, 0)
+        r = sum(pixel[0] for pixel in cluster) / length
+        g = sum(pixel[1] for pixel in cluster) / length
+        b = sum(pixel[2] for pixel in cluster) / length
+        return (r, g, b)
+
+    k = min(3, len(border_pixels))
+    centroids = [tuple(border_pixels[i]) for i in range(k)]
+
+    for _ in range(10):
+        clusters = [[] for _ in range(k)]
+        for pixel in border_pixels:
+            best_index = min(range(k), key=lambda i: distance_sq(pixel, centroids[i]))
+            clusters[best_index].append(pixel)
+
+        new_centroids = [mean_color(cluster) for cluster in clusters]
+        if all(distance_sq(centroids[i], new_centroids[i]) < 1 for i in range(k)):
+            break
+        centroids = new_centroids
+
+    largest_cluster_index = max(range(k), key=lambda i: len(clusters[i]) if clusters[i] else 0)
+    r, g, b = (int(round(c)) for c in centroids[largest_cluster_index])
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 @app.route("/dominant-color")

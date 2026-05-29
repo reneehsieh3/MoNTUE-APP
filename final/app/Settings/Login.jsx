@@ -287,7 +287,7 @@ export default function Login() {
                                         登入
                                     </Text>
                                 </View>
-                                <View style={styles.sign_in_input_container}>
+                                <View style={[styles.sign_in_input_container, {backgroundColor: colors.input}]}>
                                     <TextInput 
                                         style={[styles.sign_in_input, {color: colors.text}]} 
                                         placeholder="輸入電子郵件地址"
@@ -346,7 +346,7 @@ export default function Login() {
                                         註冊
                                     </Text>
                                 </View>
-                                <View style={styles.create_input_container}>
+                                <View style={[styles.create_input_container, {backgroundColor: colors.input}]}>
                                     <TextInput 
                                         style={[styles.create_input, {color: colors.text}]} 
                                         placeholder="輸入真實姓名"
@@ -453,7 +453,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         paddingHorizontal: 10,
-        backgroundColor: '#70707080',
         borderRadius: 20,
 /*         borderWidth: 1,
         borderColor: '#ff0000', */
@@ -525,7 +524,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         paddingHorizontal: 10,
-        backgroundColor: '#70707080',
         borderRadius: 20,
 /*         borderWidth: 1,
         borderColor: '#ff0000', */
