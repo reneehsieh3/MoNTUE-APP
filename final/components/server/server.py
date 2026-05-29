@@ -42,17 +42,10 @@ def get_most_common_color(image_path: Path) -> str:
     def distance_sq(a, b):
         return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2
 
-    def mean_color(cluster):
-        length = len(cluster)
-        if length == 0:
-            return (0, 0, 0)
-        r = sum(pixel[0] for pixel in cluster) / length
-        g = sum(pixel[1] for pixel in cluster) / length
-        b = sum(pixel[2] for pixel in cluster) / length
-        return (r, g, b)
-
+    # --- FIXED: Initialize spread-out centroids ---
     k = min(3, len(border_pixels))
-    centroids = [tuple(border_pixels[i]) for i in range(k)]
+    step = len(border_pixels) // k if k > 0 else 1
+    centroids = [tuple(border_pixels[i * step]) for i in range(k)]
 
     for _ in range(10):
         clusters = [[] for _ in range(k)]
@@ -60,7 +53,17 @@ def get_most_common_color(image_path: Path) -> str:
             best_index = min(range(k), key=lambda i: distance_sq(pixel, centroids[i]))
             clusters[best_index].append(pixel)
 
-        new_centroids = [mean_color(cluster) for cluster in clusters]
+        # --- FIXED: Handle empty clusters gracefully ---
+        new_centroids = []
+        for i in range(k):
+            if len(clusters[i]) == 0:
+                new_centroids.append(centroids[i]) # Keep old centroid if empty
+            else:
+                r = sum(p[0] for p in clusters[i]) / len(clusters[i])
+                g = sum(p[1] for p in clusters[i]) / len(clusters[i])
+                b = sum(p[2] for p in clusters[i]) / len(clusters[i])
+                new_centroids.append((r, g, b))
+
         if all(distance_sq(centroids[i], new_centroids[i]) < 1 for i in range(k)):
             break
         centroids = new_centroids
