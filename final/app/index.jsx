@@ -3,67 +3,29 @@ import React, { useEffect, useState, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useLDM } from '../components/LDM';
-import { useLDM_Home } from '../components/LDM_Home';
 
 const { width, height } = Dimensions.get('window');
-
-function isDarkColor(hex) {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    return (r * 299 + g * 587 + b * 114) / 1000 < 128;
-}
 
 export default function Intro() {
     const colors = useLDM((state) => state.colors);
     const setTheme = useLDM((state) => state.setTheme);
-    const setHomeBgColor = useLDM_Home((state) => state.setHomeBgColor);
-    const setHomeTheme = useLDM_Home((state) => state.setTheme);
     const [loading, setLoading] = useState(false);
     const progress = useRef(new Animated.Value(0)).current;
-    const [isDataReady, setIsDataReady] = useState(false);
 
     useEffect(() => {
         const startFakeLoading = () => {
             Animated.timing(progress, {
-                toValue: 0.9,
-                duration: 2000 + Math.random() * 3000,
-                useNativeDriver: false,
-            }).start();
-        };
-
-        const fetchData = async () => {
-            try {
-                const response = await fetch('https://montue-app.onrender.com/dominant-color');
-                const result = await response.json();
-                if (result?.color) {
-                    setHomeBgColor(result.color);
-                    setHomeTheme(isDarkColor(result.color) ? 'dark' : 'light');
-                    console.log(result.color);
-                }
-                setIsDataReady(true);
-            } catch (error) {
-                console.error(error);
-                setIsDataReady(true); 
-            }
-        };
-
-        startFakeLoading();
-        fetchData();
-        
-    }, []);
-
-    useEffect(() => {
-        if (isDataReady) {
-            Animated.timing(progress, {
                 toValue: 1,
-                duration: 500,
+                duration: 2000 + Math.random() * 3000,
                 useNativeDriver: false,
             }).start(() => {
                 setTimeout(() => router.push('/Home'), 200);
             });
-        }
-    }, [isDataReady]);
+        };
+
+        startFakeLoading();
+        
+    }, []);
 
     const barWidth = progress.interpolate({
         inputRange: [0, 1],

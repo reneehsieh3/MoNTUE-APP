@@ -23,66 +23,33 @@ export default function Settings() {
                 <Text style={{color: colors.text, fontSize: 18, letterSpacing: 3}}>
                     個人資訊
                 </Text>
-                {UserData[0].id ? 
-                    <Pressable 
-                        style={styles.setting_title_icon_container}
-                        onPress={() => router.push(
-                            {
-                                pathname: '/Settings/Userinfo',
-                                params: {
-                                    back: '/Settings',
-                                    next: '/Settings'
-                                }
-                            }
-                        )}
-                    >
-                        <Image source={colors.Edit_icon} style={styles.setting_title_icon} resizeMode="contain"/>
-                    </Pressable>
-                :
-                    <></>
-                }
             </View>
             <View style={[styles.setting_account_container, {borderColor: colors.outline}]}>
-                <View style={styles.setting_account_img_container}>
-                    {UserData[0].img ? 
-                        <Image source={{ uri: UserData[0].img }} style={styles.setting_account_img} resizeMode="contain" />
-                    : 
-                        <Image source={colors.User_img} style={styles.setting_account_img} resizeMode="contain" />
+                <View style={styles.setting_account_icon_container}>
+                        <Image source={UserData[0].id ? colors.User_img_in : colors.User_img_out} style={styles.setting_account_icon} resizeMode='contain'/>
+                </View>
+                <View style={styles.setting_account_name_container}>
+                    {UserData[0].id ? 
+                        <Text style={{fontSize: 24, color: colors.text}}>
+                            {UserData[0].tel}
+                        </Text>
+                    :
+                        <Pressable
+                            style={styles.setting_account_button}
+                            onPress={() => router.push({
+                                pathname: '/Settings/Login',
+                                params: {
+                                    next: '/Settings',
+                                    back: '/Settings',
+                                }
+                            })}
+                        >
+                            <Text style={{fontSize: 20, color: '#ffffff', fontWeight: '600'}}>
+                                請登入
+                            </Text>
+                        </Pressable>
                     }
                 </View>
-                {UserData[0].id ? 
-                    <View style={styles.setting_account_info_container}>
-                        <Text style={{color: colors.text, fontSize: 20, fontWeight: '500'}}>
-                            {UserData[0].name}
-                        </Text>
-                    </View>
-                :
-                    <View style={styles.setting_account_info_container}>
-                        <View style={styles.setting_account_info_name_container}>
-                            <Text style={{color: colors.text, fontSize: 20, fontWeight: '500'}}>
-                                未登入
-                            </Text>
-                        </View>
-                        <View style={styles.setting_account_info_button_container}>
-                            <Pressable
-                                style={styles.setting_account_login_button}
-                                onPress={() => router.push(
-                                    {
-                                        pathname: '/Settings/Login',
-                                        params: {
-                                            back: '/Settings',
-                                            next: '/Settings'
-                                        }
-                                    }
-                                )}
-                            >
-                                <Text style={{color: '#ffffff', fontSize: 16, fontWeight: '500', letterSpacing: 2}}>
-                                    登入/註冊
-                                </Text>
-                            </Pressable>
-                        </View>
-                    </View>
-                }
             </View>
             <View style={styles.setting_title_container}>
                 <Text style={{color: colors.text, fontSize: 18, letterSpacing: 3}}>
@@ -142,7 +109,7 @@ export default function Settings() {
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Image source={colors.Contact_icon} style={styles.setting_other_items_icon} resizeMode="contain"/>
                         <Text style={{color: colors.text, fontSize: 24, letterSpacing: 3}}>
-                            聯絡我們
+                            智慧客服
                         </Text>
                     </View>
                     <Image source={colors.Next_icon} style={styles.setting_other_items_icon} resizeMode="contain"/>
@@ -158,6 +125,17 @@ export default function Settings() {
                     <Image source={colors.Next_icon} style={styles.setting_other_items_icon} resizeMode="contain"/>
                 </View>
             </View>
+            {UserData[0].id ? 
+                <Pressable
+                    style={styles.setting_logout_button}
+                >
+                    <Text style={{fontSize: 20, color: '#ffaaaa', fontWeight: '600'}}>
+                        登出
+                    </Text>
+                </Pressable>
+            :
+                <></>
+            }
         </SafeAreaView>
     );
 }
@@ -193,56 +171,44 @@ const styles = StyleSheet.create({
     setting_account_container: {
         display: 'flex',
         width: width * 0.8,
-        height: height * 0.2,
+        height: height * 0.1,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-around',
         borderWidth: 1,
         borderRadius: 30,
     },
-    setting_account_img_container: {
-        width: height * 0.1,
-        height: height * 0.1,
-        marginLeft: width * 0.05,
-/*         borderWidth: 1,
-        borderColor: '#ffffff', */
-    },
-    setting_account_img: {
-        width: '100%',
+    setting_account_icon_container: {
+        display: 'flex',
+        width: '30%',
         height: '100%',
-    },
-    setting_account_info_container: {
-        width: '55%',
-        height: height * 0.1,
-        marginLeft: width * 0.05,
-        justifyContent: 'center',
-/*         borderWidth: 1,
-        borderColor: '#ff0000', */
-    },
-    setting_account_info_name_container: {
-        display: 'flex',
-        width: '100%',
-        height: '50%',
-        justifyContent: 'center',
-/*         borderWidth: 1,
-        borderColor: '#ff0000', */
-    },
-    setting_account_info_button_container: {
-        display: 'flex',
-        width: '100%',
-        height: '50%',
-/*         borderWidth: 1,
-        borderColor: '#ff0000', */
-    },
-    setting_account_login_button: {
-        display: 'flex',
-        width: '70%',
-        height: '90%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#F8E364',
-        borderRadius: height * 0.05,
 /*         borderWidth: 1,
         borderColor: '#ff0000', */
+    },
+    setting_account_icon: {
+        display: 'flex',
+        width: '70%',
+        height: '70%',
+    },
+    setting_account_name_container: {
+        display: 'flex',
+        width: '50%',
+        height: '100%',
+        justifyContent: 'center',
+        marginRight: '5%',
+/*         borderWidth: 1,
+        borderColor: '#ff0000', */
+    },
+    setting_account_button: {
+        display: 'flex',
+        width: '100%',
+        height: '60%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 999,
+        backgroundColor: '#f8e364',
     },
     setting_other_container: {
         width: width * 0.8,
@@ -271,5 +237,13 @@ const styles = StyleSheet.create({
         borderRadius: 30,
 /*         borderWidth: 1,
         borderColor: '#ff0000', */
+    },
+    setting_logout_button: {
+        display: 'flex',
+        width: width * 0.7,
+        height: height * 0.06,
+        marginTop: height * 0.07,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });

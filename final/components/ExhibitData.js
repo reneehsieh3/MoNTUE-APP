@@ -3,7 +3,7 @@ export const ExhibitData = [
         name: '《遙視》（Remote Viewing）',
         ticket_name: '遙視',
         date: '2026/04/18 - 2026/06/28',
-        poster_D: require('../images/EP_kusama_yayoi_D.png'),
+        poster_D: require('../images/EP_remote-viewing_D.png'),
         poster_H: require('../images/EP_remote-viewing_H.png'),
         img: '../images/EP_remote-viewing_D.png',
         bgc: '#000000',

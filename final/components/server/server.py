@@ -42,7 +42,6 @@ def get_most_common_color(image_path: Path) -> str:
     def distance_sq(a, b):
         return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2
 
-    # --- FIXED: Initialize spread-out centroids ---
     k = min(3, len(border_pixels))
     step = len(border_pixels) // k if k > 0 else 1
     centroids = [tuple(border_pixels[i * step]) for i in range(k)]
@@ -53,7 +52,6 @@ def get_most_common_color(image_path: Path) -> str:
             best_index = min(range(k), key=lambda i: distance_sq(pixel, centroids[i]))
             clusters[best_index].append(pixel)
 
-        # --- FIXED: Handle empty clusters gracefully ---
         new_centroids = []
         for i in range(k):
             if len(clusters[i]) == 0:
