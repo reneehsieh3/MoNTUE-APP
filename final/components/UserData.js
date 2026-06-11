@@ -1,10 +1,7 @@
 export const UserData = [
     {
         id: "",
-        email: "",
-        password: "",
-        name: "",
-        img: "",
+        tel: "0900000000",
         ticket: [],
         cart: [],
     }
