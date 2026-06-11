@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
         height: height * 0.1,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         borderWidth: 1,
         borderRadius: 30,
     },
@@ -189,8 +189,10 @@ const styles = StyleSheet.create({
     },
     setting_account_icon: {
         display: 'flex',
-        width: '70%',
-        height: '70%',
+        width: '100%',
+        height: '60%',
+/*         borderWidth: 1,
+        borderColor: '#ff0000', */
     },
     setting_account_name_container: {
         display: 'flex',
